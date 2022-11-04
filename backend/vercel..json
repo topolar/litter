@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "outputDirectory": "dist",
+  "builds": [
+    {
+      "src": "src/express.ts",
+      "use": "@now/node"
+    }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "src/express.ts" }
+  ]
+}

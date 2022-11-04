@@ -1,0 +1,39 @@
+{
+  "name": "litter-backend",
+  "typex": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "prisma generate && tsc",
+    "start": "nodemon ./src/index.ts",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "prismagen": "prisma generate"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.0.4",
+    "@graphql-codegen/typescript-mongodb": "^2.4.5",
+    "@prisma/client": "^4.5.0",
+    "@vercel/node": "^2.5.26",
+    "apollo-server-core": "^3.10.3",
+    "apollo-server-express": "^3.10.3",
+    "bson": "^4.7.0",
+    "cors": "^2.8.5",
+    "dataloader": "^2.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0",
+    "mongodb": "^4.11.0",
+    "prisma": "^4.5.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.13.8",
+    "@graphql-codegen/typescript": "2.8.0",
+    "@graphql-codegen/typescript-operations": "^2.5.6",
+    "@graphql-codegen/typescript-resolvers": "2.7.5",
+    "@types/node": "^18.11.7",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  }
+}

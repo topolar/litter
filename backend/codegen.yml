@@ -1,0 +1,17 @@
+schema: "./schema.graphql"
+require:
+  - "ts-node/register"
+generates:
+  src/__generated__/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-resolvers"
+    config:
+      mappers:
+        Post: .prisma/client#Post as PostModel
+        User: .prisma/client#User as UserModel
+        inputMaybeValue: undefined | T
+      useIndexSignature: true
+      # More on this below!
+      contextType: "../context#MyContext"
