@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { Post as PostModel, User as UserModel } from '.prisma/client';
 import { MyContext } from '../context';
 export type Maybe<T> = T | null;
@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type Mutation = {
@@ -54,9 +55,11 @@ export type MutationResponse = {
 
 export type Post = {
   __typename?: 'Post';
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   text: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
   user?: Maybe<User>;
 };
 
@@ -185,6 +188,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   MutationResponse: ResolversTypes['PostMutationResponse'] | ResolversTypes['UserMutationResponse'];
@@ -201,6 +205,7 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
+  DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
   Mutation: {};
   MutationResponse: ResolversParentTypes['PostMutationResponse'] | ResolversParentTypes['UserMutationResponse'];
@@ -213,6 +218,10 @@ export type ResolversParentTypes = ResolversObject<{
   UserInput: UserInput;
   UserMutationResponse: Omit<UserMutationResponse, 'user'> & { user?: Maybe<ResolversParentTypes['User']> };
 }>;
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
 
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addPost?: Resolver<Maybe<ResolversTypes['PostMutationResponse']>, ParentType, ContextType, Partial<MutationAddPostArgs>>;
@@ -229,9 +238,11 @@ export type MutationResponseResolvers<ContextType = MyContext, ParentType extend
 }>;
 
 export type PostResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -268,6 +279,7 @@ export type UserMutationResponseResolvers<ContextType = MyContext, ParentType ex
 }>;
 
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
+  DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   MutationResponse?: MutationResponseResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;

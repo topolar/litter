@@ -1,3 +1,5 @@
+scalar DateTime
+
 type Query {
     posts: [Post]
     post(id: ID!):Post
@@ -10,7 +12,10 @@ type Post {
     text: String!
     image: String
     user: User
+    createdAt: DateTime
+    updatedAt: DateTime
 }
+
 
 type User {
     id: ID

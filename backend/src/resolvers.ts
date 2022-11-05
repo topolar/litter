@@ -12,7 +12,7 @@ async function mutationHandler(name,exec:()=>any) {
 
 export const resolvers: Resolvers = {
     Query: {
-        posts: (_,__,{prisma}) => prisma.post.findMany(),
+        posts: (_,__,{prisma}) => prisma.post.findMany({orderBy:[{ createdAt : 'desc' }]}),
         post: (_,{id},{prisma})=> prisma.post.findUnique({where:{id:id}}),
 
         users:(_,__,{prisma}) => prisma.user.findMany(),
@@ -48,6 +48,6 @@ export const resolvers: Resolvers = {
             )
     },
     Post: {
-        user:(post,__,{prisma}) => prisma.user.findUnique({where:{id:post.userId}})
+        user:(post,__,{prisma}) => post.userId?prisma.user.findUnique({where:{id:post.userId}}):null
     }
 }
