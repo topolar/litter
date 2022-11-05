@@ -1,0 +1,70 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+interface MutationResponse {
+    code: String
+    message: String
+    success: Boolean!
+}
+
+type Mutation {
+    addPost(input: PostInput): PostMutationResponse
+    addUser(input: UserInput): UserMutationResponse
+    deletePost(id: ID!): PostMutationResponse
+    updatePost(id: ID!, input: PostInput): PostMutationResponse
+}
+
+type Post {
+    createdAt: DateTime
+    id: ID
+    image: String
+    text: String!
+    updatedAt: DateTime
+    user: User
+}
+
+type PostMutationResponse implements MutationResponse {
+    code: String
+    message: String
+    post: Post
+    success: Boolean!
+}
+
+type Query {
+    post(id: ID!): Post
+    posts: [Post]
+    user(id: ID!): User
+    users: [User]
+}
+
+type User {
+    email: String
+    id: ID
+    image: String
+    name: String
+}
+
+type UserMutationResponse implements MutationResponse {
+    code: String
+    message: String
+    success: Boolean!
+    user: User
+}
+
+scalar DateTime
+
+input PostInput {
+    image: String
+    text: String!
+    userId: ID
+}
+
+input UserInput {
+    email: String
+    image: String
+    name: String!
+}

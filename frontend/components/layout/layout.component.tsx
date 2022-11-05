@@ -6,7 +6,7 @@ import { Navigator } from "./navigator.component"
 
 const drawerWidth = 256;
 
-export const Layout: React.FC<{ children:ReactNode }> = ({children}) => {
+export const Layout: React.FC<{ headerTitle:string,children:ReactNode }> = ({headerTitle,children}) => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -32,8 +32,8 @@ export const Layout: React.FC<{ children:ReactNode }> = ({children}) => {
             </Box>
             <Box sx={{flex:1, display:'flex' ,bgcolor: '#eaeff1'}}>
                 <Box sx={{ flex: 1, display: 'flex', maxWidth:600, flexDirection: 'column',borderRight:"#999 1px solid" }}>
-                    <Header onDrawerToggle={handleDrawerToggle} />
-                    <Box component="main" sx={{ flex: 1, py: 6, px: 4 }}>
+                    <Header title={headerTitle} onDrawerToggle={handleDrawerToggle} />
+                    <Box component="main" sx={{ flex: 1, px: 2 }}>
                         {children}
                     </Box>
                     <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>

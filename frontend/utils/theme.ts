@@ -5,7 +5,7 @@ import {Theme} from "@mui/system";
 export const theme:Theme = createTheme({
     palette: {
         primary: {
-            main: "#3DbBF9",
+            main: "#7D7DFF",
         },
     },
 });

@@ -21,12 +21,12 @@ interface HeaderProps {
     onDrawerToggle: () => void;
 }
 
-export const Header: React.FC<{ onDrawerToggle: () => void }> = (props) => {
-    const { onDrawerToggle } = props;
+export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (props) => {
+    const { onDrawerToggle,title } = props;
 
     return (
         <React.Fragment>
-            <AppBar color="transparent" position="sticky" elevation={0}>
+            <AppBar position="sticky" elevation={0} sx={{bgcolor:"#eaeff1",color:'#000'}}>
                 <Toolbar>
                     <Grid container spacing={1} alignItems="center">
                         <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
@@ -41,7 +41,7 @@ export const Header: React.FC<{ onDrawerToggle: () => void }> = (props) => {
                         </Grid>
                         <Grid item xs>
                             <Typography color="inherit" variant="h5" component="h1">
-                                Hlavní stránka
+                                {title}
                             </Typography>
                         </Grid>
 
@@ -54,7 +54,7 @@ export const Header: React.FC<{ onDrawerToggle: () => void }> = (props) => {
                         </Grid>
                         <Grid item>
                             <IconButton color="inherit" sx={{ p: 0.5 }}>
-                                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+                                <Avatar src="" alt="My Avatar" />
                             </IconButton>
                         </Grid>
                     </Grid>
