@@ -17,7 +17,7 @@ import {Menu, MenuItem} from "@mui/material";
 export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (props) => {
     const { onDrawerToggle,title } = props;
     const userContext = useContext(UserContext);
-    const currentUser=userContext?.currentUser;
+    const currentUser=userContext?.user;
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -30,11 +30,11 @@ export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (pr
 
     const handleLogin = async()=>{
         const { user } = await signInWithGooglePopup();
-        userContext?.setCurrentUser(user);
+        userContext?.setFirebaseUser(user);
     }
 
     const handleLogout = async()=>{
-        userContext?.setCurrentUser(null);
+        userContext?.setFirebaseUser(null);
         handleClose();
     }
 
@@ -62,7 +62,7 @@ export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (pr
                         { currentUser ? (
                           <>
                             <IconButton color="inherit" sx={{ p: 0.5 }}  aria-label="login" onClick={handleClick}>
-                                <Avatar src={currentUser.photoURL??undefined} alt={currentUser.displayName??undefined} />
+                                <Avatar src={currentUser.image??undefined} alt={currentUser.name??undefined} />
                             </IconButton>
                           </>
                         ) : (

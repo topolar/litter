@@ -1,4 +1,4 @@
-import {ApolloClient, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
+import {ApolloClient, ApolloLink, concat, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 
 const isServer = typeof window === "undefined";
 // @ts-ignore
@@ -16,4 +16,18 @@ export function getApolloClient(forceRefresh=false) {
         });
     }
     return client;
+}
+
+export function setApolloClientBearer(token:string) {
+    const client=getApolloClient();
+    const httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_GRAPHQL_URL });
+    const authMiddleware = new ApolloLink((operation, forward) => {
+        operation.setContext({
+            headers: {
+                authorization: token ? `Bearer ${token}` : "",
+            },
+        });
+        return forward(operation);
+    });
+    client.setLink(concat(authMiddleware,httpLink));
 }

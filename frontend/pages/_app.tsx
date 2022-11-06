@@ -4,7 +4,7 @@ import {CssBaseline, ThemeProvider} from '@mui/material'
 import {theme} from "../utils/theme";
 import createEmotionCache from "../utils/theme.utils";
 import {CacheProvider, EmotionCache} from "@emotion/react";
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import {ApolloProvider} from "@apollo/client";
 import {getApolloClient} from "../utils/apollo.utils";
 import {UserProvider} from "../contexts/user.context";
 

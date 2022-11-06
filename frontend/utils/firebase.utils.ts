@@ -1,11 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 import {
 	getAuth,
-	signInWithRedirect,
-	signInWithPopup,
 	GoogleAuthProvider,
-	onAuthStateChanged, NextOrObserver
+	NextOrObserver,
+	onAuthStateChanged,
+	signInWithPopup,
+	signInWithRedirect,
+	signOut
 } from 'firebase/auth';
 import {User} from "@firebase/auth";
 
@@ -25,4 +27,8 @@ googleProvider.setCustomParameters({prompt: 'select_account',});
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+export const signOutWithGoogle = () => signOut(auth);
 export const onAuthStateChangedListener = (callback:NextOrObserver<User>) => onAuthStateChanged(auth, callback);
+export const getFirebaseUserToken = () => {
+	return auth.currentUser?.getIdToken(true) ?? null;
+}

@@ -8,6 +8,7 @@ import {getApolloClient} from "../utils/apollo.utils";
 import {PostCard} from "../components/posts/post-card.component";
 import {PostForm} from "../components/posts/post-form.component";
 import {useState} from "react";
+import {AlertColor} from "@mui/material/Alert/Alert";
 
 const GET_ALL_POSTS=gql`
   query getAllPosts {
@@ -19,6 +20,7 @@ const GET_ALL_POSTS=gql`
       user {
         id
         name
+        image
       }
     }
   }
@@ -44,24 +46,35 @@ type HomePageProps= {
     posts:Post[]
 }
 
+type SnackParams = {
+  open:boolean
+  message:string
+  severity:AlertColor
+}
+
 export default function HomePage(props:HomePageProps) {
   const {loading,error,data,refetch} = useQuery<GetAllPostsQuery>(GET_ALL_POSTS);
   const [addPost]=useMutation(ADD_POST);
   const [deletePost]=useMutation(DELETE_POST);
 
-  const [snack,setSnack]=useState({open:false,message:''});
+  const [snack,setSnack]=useState<SnackParams>({open:false,message:'',severity:'success'});
 
 
   const handleDelete=async(post:Post) => {
-    const data=await deletePost({variables:{id:post.id}});
-    setSnack({open:true,message:'Příspěvek smazán'});
-    await refetch();
+    try {
+      await deletePost({variables: {id: post.id}});
+      setSnack({open: true, message: 'Příspěvek smazán',severity:'success'});
+      await refetch();
+    } catch (e:any) {
+      setSnack({open: true, message: e.message??'Nastala neznámá chyba!',severity:'error'});
+      console.log(e);
+    }
   }
 
   const handleSubmit=async(input:PostInput) => {
     const data=await addPost({variables:{input}});
     await refetch();
-    setSnack({open:true,message:'Příspěvek přidán'});
+    setSnack({open:true,message:'Příspěvek přidán',severity:'success'});
   }
 
   const posts=data?.posts ?? props.posts;
@@ -96,7 +109,7 @@ export default function HomePage(props:HomePageProps) {
         }
 
         <Snackbar open={snack.open} autoHideDuration={6000} onClose={()=>setSnack({...snack,open:false})}>
-          <Alert onClose={()=>setSnack({...snack,open:false})} severity="success" sx={{ width: '100%' }}>
+          <Alert onClose={()=>setSnack({...snack,open:false})} severity={snack.severity} sx={{ width: '100%' }}>
             {snack.message}
           </Alert>
         </Snackbar>

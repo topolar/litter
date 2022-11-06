@@ -41,17 +41,19 @@ export const PostCard: React.FC<{ post:Post, onDelete:()=>void }> = ({post,onDel
         <Card sx={{width:'100%'}}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        M
-                    </Avatar>
+                  post.user ? (
+                    <Avatar src={post.user.image!} alt={post.user.name!} sx={{ bgcolor: red[500] }} aria-label="recipe"/>
+                  ): (
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">?</Avatar>
+                  )
                 }
                 action={
                     <IconButton aria-label="settings" id="menu-button" onClick={handleClick}>
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title={<Chip label={new Date(post.createdAt).toLocaleString()} variant="outlined" />}
-                subheader=""
+                title={post.user?.name}
+                subheader={new Date(post.createdAt).toLocaleString()}
             />
             { post.image && (
                     <CardMedia
