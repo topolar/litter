@@ -1,5 +1,5 @@
 import {Resolvers} from './__generated__/graphql';
-import {checkPostAccessById, getUser, mutationHandler, requireRole} from "./resolvers-utils";
+import {checkPostAccessById, getUser, mutationHandler, requireRole} from "./utils";
 
 export const resolvers: Resolvers = {
     Query: {
