@@ -25,41 +25,39 @@ export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (pr
     const { onDrawerToggle,title } = props;
 
     return (
-        <React.Fragment>
-            <AppBar position="sticky" elevation={0} sx={{bgcolor:"#eaeff1",color:'#000'}}>
-                <Toolbar>
-                    <Grid container spacing={1} alignItems="center">
-                        <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={onDrawerToggle}
-                                edge="start"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs>
-                            <Typography color="inherit" variant="h5" component="h1">
-                                {title}
-                            </Typography>
-                        </Grid>
-
-                        <Grid item>
-                            <Tooltip title="Alerts • No alerts">
-                                <IconButton color="inherit">
-                                    <NotificationsIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item>
-                            <IconButton color="inherit" sx={{ p: 0.5 }}>
-                                <Avatar src="" alt="My Avatar" />
-                            </IconButton>
-                        </Grid>
+        <AppBar position="sticky" elevation={1} sx={{bgcolor:"#e0e4f1",color:'#000',marginBottom:2}}>
+            <Toolbar>
+                <Grid container spacing={1} alignItems="center">
+                    <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={onDrawerToggle}
+                            edge="start"
+                        >
+                            <MenuIcon />
+                        </IconButton>
                     </Grid>
-                </Toolbar>
-            </AppBar>
-        </React.Fragment>
+                    <Grid item xs>
+                        <Typography color="inherit" variant="h5" component="h1">
+                            {title}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item>
+                        <Tooltip title="Alerts • No alerts">
+                            <IconButton color="inherit">
+                                <NotificationsIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item>
+                        <IconButton color="inherit" sx={{ p: 0.5 }}>
+                            <Avatar src="" alt="My Avatar" />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </Toolbar>
+        </AppBar>
     );
 }
