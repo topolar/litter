@@ -6,6 +6,7 @@ import createEmotionCache from "../utils/theme.utils";
 import {CacheProvider, EmotionCache} from "@emotion/react";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 import {getApolloClient} from "../utils/apollo.utils";
+import {UserProvider} from "../contexts/user.context";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -17,6 +18,7 @@ const client = getApolloClient();
 
 export default function App({ Component, emotionCache=clientSideEmotionCache,pageProps }: MyAppProps) {
   return (
+    <UserProvider>
       <ApolloProvider client={client}>
           <CacheProvider value={emotionCache}>
               <ThemeProvider theme={theme}>
@@ -25,6 +27,7 @@ export default function App({ Component, emotionCache=clientSideEmotionCache,pag
               </ThemeProvider>
           </CacheProvider>
       </ApolloProvider>
+    </UserProvider>
   )
 }
 

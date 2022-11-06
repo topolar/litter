@@ -3,26 +3,40 @@ import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import {ReactNode} from "react";
+import {useContext} from "react";
+import {signInWithGooglePopup} from "../../utils/firebase.utils";
+import {UserContext} from "../../contexts/user.context";
+import GoogleIcon from '@mui/icons-material/Google';
+import {Menu, MenuItem} from "@mui/material";
 
-const lightColor = 'rgba(255, 255, 255, 0.7)';
-
-interface HeaderProps {
-    onDrawerToggle: () => void;
-}
 
 export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (props) => {
     const { onDrawerToggle,title } = props;
+    const userContext = useContext(UserContext);
+    const currentUser=userContext?.currentUser;
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogin = async()=>{
+        const { user } = await signInWithGooglePopup();
+        userContext?.setCurrentUser(user);
+    }
+
+    const handleLogout = async()=>{
+        userContext?.setCurrentUser(null);
+        handleClose();
+    }
 
     return (
         <AppBar position="sticky" elevation={1} sx={{bgcolor:"#e0e4f1",color:'#000',marginBottom:2}}>
@@ -45,19 +59,29 @@ export const Header: React.FC<{ title:string,onDrawerToggle: () => void }> = (pr
                     </Grid>
 
                     <Grid item>
-                        <Tooltip title="Alerts • No alerts">
-                            <IconButton color="inherit">
-                                <NotificationsIcon />
+                        { currentUser ? (
+                          <>
+                            <IconButton color="inherit" sx={{ p: 0.5 }}  aria-label="login" onClick={handleClick}>
+                                <Avatar src={currentUser.photoURL??undefined} alt={currentUser.displayName??undefined} />
                             </IconButton>
-                        </Tooltip>
-                    </Grid>
-                    <Grid item>
-                        <IconButton color="inherit" sx={{ p: 0.5 }}>
-                            <Avatar src="" alt="My Avatar" />
-                        </IconButton>
+                          </>
+                        ) : (
+                          <Button variant="outlined" startIcon={<GoogleIcon />} onClick={handleLogin}>
+                              Přihlásit
+                          </Button>
+                        )}
                     </Grid>
                 </Grid>
             </Toolbar>
+            <Menu
+              id="account-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{'aria-labelledby': 'account-button',}}
+            >
+                <MenuItem onClick={handleLogout}>Odhlásit</MenuItem>
+            </Menu>
         </AppBar>
     );
 }
