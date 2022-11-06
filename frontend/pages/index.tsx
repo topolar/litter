@@ -77,7 +77,7 @@ export default function HomePage(props:HomePageProps) {
     setSnack({open:true,message:'Příspěvek přidán',severity:'success'});
   }
 
-  const posts=data?.posts ?? props.posts;
+  const posts:Post[]=(data?.posts as Post[])?? props.posts;
   return (
       <Layout headerTitle="Hlavní stránka">
         <Head>
@@ -98,11 +98,11 @@ export default function HomePage(props:HomePageProps) {
 
         { posts && (
             <List sx={{flex:1}} component="ul" aria-label="posts">
-              {  posts.map((post)=>post && (
-                    <ListItem divider key={post.id} sx={{px:0}}>
-                      <PostCard  post={post} onDelete={()=>handleDelete(post)}/>
-                    </ListItem>)
-                 )
+              {  posts.map((post)=>(
+                <ListItem divider key={post.id} sx={{px:0}}>
+                  <PostCard  post={post} onDelete={()=>handleDelete(post)}/>
+                </ListItem>)
+              )
               }
             </List>
           )
