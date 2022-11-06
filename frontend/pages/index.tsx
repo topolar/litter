@@ -83,7 +83,6 @@ export default function HomePage(props:HomePageProps) {
         <Head>
           <title>Litter Social</title>
           <meta name="description" content="Litter Social app experiment" />
-          <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <PostForm onSubmit={handleSubmit}/>

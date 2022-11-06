@@ -7,6 +7,7 @@ import {CacheProvider, EmotionCache} from "@emotion/react";
 import {ApolloProvider} from "@apollo/client";
 import {getApolloClient} from "../utils/apollo.utils";
 import {UserProvider} from "../contexts/user.context";
+import Head from 'next/head';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -23,6 +24,9 @@ export default function App({ Component, emotionCache=clientSideEmotionCache,pag
           <CacheProvider value={emotionCache}>
               <ThemeProvider theme={theme}>
                 <CssBaseline />
+                <Head>
+                  <link rel="icon" href="/favicon.ico" />
+                </Head>
                 <Component {...pageProps} />
               </ThemeProvider>
           </CacheProvider>
