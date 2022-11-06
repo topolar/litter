@@ -3,6 +3,11 @@ import {MyContext} from "./context";
 import {User} from "./__generated__/graphql";
 import {GraphQLError} from "graphql";
 
+/**
+ * Returns User object according to data in Context. If canCreate is true, then new User will be stored automatically
+ * @param context
+ * @param canCreate
+ */
 export async function getUser(context:MyContext,canCreate:boolean=true):Promise<User|null> {
   if(!context.user) {
     return null;
@@ -23,6 +28,11 @@ export async function getUser(context:MyContext,canCreate:boolean=true):Promise<
   return user;
 }
 
+/**
+ * Check required role for actual context. Throws error if no signed user or user has not required roles.
+ * @param context
+ * @param role
+ */
 export async function requireRole(context:MyContext,role:string):Promise<void> {
   const user=await getUser(context);
   if(!user) {
@@ -34,6 +44,11 @@ export async function requireRole(context:MyContext,role:string):Promise<void> {
   }
 }
 
+/**
+ * Check if actual user can modify post defined by id
+ * @param context
+ * @param id
+ */
 export async function checkPostAccessById(context:MyContext,id:string) {
   const post=await context.prisma.post.findUnique({where:{id}});
   if(!post) {
@@ -51,6 +66,11 @@ export async function checkPostAccessById(context:MyContext,id:string) {
   }
 }
 
+/**
+ * Handling results of mutations
+ * @param name
+ * @param exec
+ */
 export async function mutationHandler(name:string,exec:()=>any) {
   try {
     return {success: true, [name]:await exec()};
