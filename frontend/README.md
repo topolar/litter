@@ -18,6 +18,10 @@ months ago, but I would need few weeks to learn it in detail.
 - Appearance of the application is not important, you can take inspiration from any
   existing social network
 
+## Additional Implementation
+- [x] Support for Sign-in by Firebase Authentification / Google Sign-in
+- [x] Server Side Rendering
+
 ## Development
 - `npm run dev` - Start development server
 - `npm run codegen` - Generate GraphQL helper
