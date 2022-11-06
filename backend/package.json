@@ -8,7 +8,8 @@
     "compile": "prisma generate && tsc",
     "start": "nodemon ./src/index.ts",
     "codegen": "graphql-codegen --config codegen.yml",
-    "prismagen": "prisma generate"
+    "prismagen": "prisma generate",
+    "gen": "npm run prismagen && npm run codegen"
   },
   "dependencies": {
     "@apollo/server": "^4.0.4",
@@ -23,6 +24,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.11.0",
     "prisma": "^4.5.0"
   },

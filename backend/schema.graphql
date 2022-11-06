@@ -5,6 +5,7 @@ type Query {
     post(id: ID!):Post
     users: [User]
     user(id: ID!):User
+    userByUid(uid:String):User
 }
 
 type Post {
@@ -19,6 +20,8 @@ type Post {
 
 type User {
     id: ID
+    uid: String!
+    roles: [String]
     name: String
     email: String
     image: String
@@ -47,6 +50,8 @@ type UserMutationResponse implements MutationResponse {
 
 input UserInput {
     name: String!
+    uid:String!
+    roles:[String]
     image: String
     email: String
 }

@@ -20,9 +20,11 @@ model Post {
 
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
+  uid      String @unique
+  roles    String[] @default([])
   name     String
-  image    String?
-  email    String?
+  image    String? @default("")
+  email    String? @default("")
   post     Post[]
   @@map("users")
 }

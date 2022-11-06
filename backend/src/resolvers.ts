@@ -1,51 +1,36 @@
 import {Resolvers} from './__generated__/graphql';
-
-async function mutationHandler(name,exec:()=>any) {
-    try {
-        console.log('execute mutation for '+name)
-        return {success: true, [name]:await exec()};
-    } catch (e) {
-        console.log('Error!',e.meta);
-        return {success: false, message:e.meta.message || e.meta.query_validation_error || e.message}
-    }
-}
+import {checkPostAccessById, getUser, mutationHandler, requireRole} from "./resolvers.utils";
 
 export const resolvers: Resolvers = {
     Query: {
         posts: (_,__,{prisma}) => prisma.post.findMany({orderBy:[{ createdAt : 'desc' }]}),
-        post: (_,{id},{prisma})=> prisma.post.findUnique({where:{id:id}}),
+        post: (_,{id},{prisma})=> prisma.post.findUnique({where:{id}}),
 
-        users:(_,__,{prisma}) => prisma.user.findMany(),
-        user:(_, {id},{prisma}) => prisma.user.findUnique({where:{id:id}}),
+        users:async(_,__,context) => { await requireRole(context,'admin');return context.prisma.user.findMany()},
+        user:(_, {id},{prisma}) => prisma.user.findUnique({where:{id}}),
     },
     Mutation: {
         // POST mutations
-        addPost:(_, {input}, {prisma})=>mutationHandler('post',
-            ()=>
-                prisma.post.create({ data: {
-                    text:input.text,
-                    image:input.image??undefined,
-                    userId:input.userId??undefined
-                }})
-        ),
-        updatePost:async(_,{id,input}, {prisma})=>mutationHandler('post',
-           ()=>
-               prisma.post.update({ where:{id},data:{ text:input.text,image:input.image,userId:input.userId}})
-        ),
-        deletePost:async(_,{id}, {prisma})=>mutationHandler('post',
-            ()=>
-                prisma.post.delete({ where:{id}})
-        ),
+        addPost:async(_, {input}, context)=>{
+          const user=await getUser(context);
+          return mutationHandler('post', ()=>context.prisma.post.create({data: {...input,userId:user?.id}}));
+        },
+        updatePost:async(_,{id,input}, context)=>{
+          await checkPostAccessById(context,id);
+          return mutationHandler('post', ()=> context.prisma.post.update({ where:{id},data:{...input}}))
+        },
+        deletePost:async(_,{id}, context)=>{
+          await checkPostAccessById(context,id);
+          return mutationHandler('post', ()=> context.prisma.post.delete({ where:{id}}));
+        },
 
         // USER mutations
-        addUser:(_,{input},{prisma})=>mutationHandler('user',
-            ()=>
-                prisma.user.create({data:{
-                    name:input.name,
-                    image:input.image??undefined,
-                    email:input.email??undefined,
-                }})
-            )
+        addUser:async(_,{input},context)=>{
+          await requireRole(context,'admin');
+          return mutationHandler('user', ()=>
+              context.prisma.user.create({data:{...input}})
+          )
+        }
     },
     Post: {
         user:(post,__,{prisma}) => post.userId?prisma.user.findUnique({where:{id:post.userId}}):null

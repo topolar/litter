@@ -82,6 +82,7 @@ export type Query = {
   post?: Maybe<Post>;
   posts?: Maybe<Array<Maybe<Post>>>;
   user?: Maybe<User>;
+  userByUid?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -95,18 +96,27 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryUserByUidArgs = {
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  roles?: Maybe<Array<Maybe<Scalars['String']>>>;
+  uid: Scalars['String'];
 };
 
 export type UserInput = {
   email?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid: Scalars['String'];
 };
 
 export type UserMutationResponse = MutationResponse & {
@@ -259,6 +269,7 @@ export type QueryResolvers<ContextType = MyContext, ParentType extends Resolvers
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostArgs, 'id'>>;
   posts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userByUid?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByUidArgs>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
@@ -267,6 +278,8 @@ export type UserResolvers<ContextType = MyContext, ParentType extends ResolversP
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
