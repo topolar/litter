@@ -17,6 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Post} from "../../__generated__/graphql";
 import {Chip, Menu, MenuItem} from "@mui/material";
 import Link from "next/link";
+import moment from 'moment';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -53,7 +54,7 @@ export const PostCard: React.FC<{ post:Post, onDelete:()=>void }> = ({post,onDel
                     </IconButton>
                 }
                 title={post.user?.name}
-                subheader={new Date(post.createdAt).toLocaleString()}
+                subheader={moment(post.createdAt).utcOffset(60).format('D.M.YYYY H:mm')}
             />
             { post.image && (
                     <CardMedia
