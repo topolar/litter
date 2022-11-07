@@ -1,0 +1,71 @@
+scalar DateTime
+
+type Query {
+    posts: [Post]
+    post(id: ID!):Post
+    users: [User]
+    user(id: ID!):User
+    userByUid(uid:String):User
+}
+
+type Post {
+    id : ID
+    text: String!
+    image: String
+    user: User
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+
+type User {
+    id: ID
+    uid: String!
+    roles: [String]
+    name: String
+    email: String
+    image: String
+}
+
+interface MutationResponse {
+    success: Boolean!
+    message: String
+    code: String
+}
+
+type PostMutationResponse implements MutationResponse {
+    success: Boolean!
+    message: String
+    code: String
+    post: Post
+}
+
+
+type UserMutationResponse implements MutationResponse {
+    success: Boolean!
+    message: String
+    code: String
+    user: User
+}
+
+input UserInput {
+    name: String!
+    uid:String!
+    roles:[String]
+    image: String
+    email: String
+}
+
+input PostInput {
+    text: String!
+    image: String
+    userId: ID
+}
+
+type Mutation {
+    addPost(input:PostInput): PostMutationResponse
+    updatePost(id:ID!,input:PostInput):PostMutationResponse
+    deletePost(id:ID!):PostMutationResponse
+
+    addUser(input:UserInput):UserMutationResponse
+}
