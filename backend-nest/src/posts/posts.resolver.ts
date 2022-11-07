@@ -87,25 +87,18 @@ export class PostsResolver {
       post = await this.postsService.findOne(id);
     } catch (e) {}
 
-    try {
-      if (!post) {
-        throw new BadRequestException('Post neexistuje');
-      }
-      if (post.userId) {
-        if (
-          !user ||
-          (user.id !== post.userId && !user.roles.includes('admin'))
-        ) {
-          throw new ForbiddenException('Přístup odepřen!');
-        }
-      }
-      await this.postsService.remove(id);
-      return { success: true };
-    } catch (e) {
-      return {
-        success: false,
-        message: e.message,
-      };
+    if (!post) {
+      throw new BadRequestException('Post neexistuje');
     }
+    if (post.userId) {
+      if (
+        !user ||
+        (user.id !== post.userId && !user.roles.includes('admin'))
+      ) {
+        throw new ForbiddenException('Přístup odepřen!');
+      }
+    }
+    await this.postsService.remove(id);
+    return { success: true };
   }
 }
