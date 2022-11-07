@@ -1,5 +1,4 @@
 # NestJS Litter Backend
-Production version is available at https://litter-backend.vercel.app
 
 ## Requirements
 - [x] Create database schema of the post (title, content, picture, ..)
