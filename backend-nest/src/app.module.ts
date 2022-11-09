@@ -21,6 +21,7 @@ import { PrismaService } from './prisma.service';
         //outputAs: 'class',
         emitTypenameField: true,
       },
+      introspection: true,
     }),
     PostsModule,
     UsersModule,
