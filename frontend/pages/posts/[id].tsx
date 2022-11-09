@@ -1,10 +1,8 @@
-import {gql, useMutation, useQuery} from "@apollo/client";
+import {gql, useQuery} from "@apollo/client";
 import Head from "next/head";
-import {List, ListItem} from "@mui/material";
-import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import {GetServerSideProps} from "next";
 import {Post} from "../../__generated__/graphql";
 import {Layout} from "../../components/layout/layout.component";
-import {PostCard} from "../../components/posts/post-card.component";
 import {getApolloClient} from "../../utils/apollo.utils";
 import {PostDetail} from "../../components/posts/post-detail.component";
 
@@ -17,6 +15,7 @@ const GET_POST=gql`
             user {
                 id
                 name
+		            image
             }
         }
     }
@@ -32,7 +31,7 @@ export default function HomePage(props:PostPageProps) {
 
 	const post=data?.post ?? props.post;
 	return (
-		<Layout headerTitle={`Post ${post.id}`}>
+		<Layout headerTitle='Sdílený příspěvek'>
 			<Head>
 				<title>{`Post ${post.id}`}</title>
 			</Head>

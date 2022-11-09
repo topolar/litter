@@ -10,6 +10,11 @@ Production version is available at https://litter-backend.vercel.app
 - [x] Authentification by Bearer JWT token
 - [x] Support for Roles. For example: Only admin can query all users
 
+
+## `.env` settings
+- `MONGODB_URI` - MongoDB URI
+- `JWT_SECRET` - Secret for JWT signing
+
 ## Development
 - `npm start` - starts dev server on port 4000
 - `npm codegen` - generates GraphQL helpers
@@ -17,4 +22,4 @@ Production version is available at https://litter-backend.vercel.app
 - `npm gen` - runs prismagen & codegen
 
 ## Deployment
-Deployment is done automatically to Vercel by making push to GIT MASTER.
+Deployment is done automatically to Vercel by making push to GITHUB MAIN.
